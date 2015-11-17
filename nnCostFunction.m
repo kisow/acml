@@ -81,10 +81,10 @@ J /= m;
 % Part 3: regularization
 % -------------------------------------------------------------
 nt1 = Theta1;
-nt1(:, 1) = 0;
+nt1 = nt1(:, 2:end);
 nt1 = reshape(nt1, size(nt1, 1) * size(nt1, 2), 1);
 nt2 = Theta2;
-nt2(:, 1) = 0;
+nt2 = nt2(:, 2:end);
 nt2 = reshape(nt2, size(nt2, 1) * size(nt2, 2), 1);
 J = J + (nt1' * nt1 + nt2' * nt2) * lambda / (2 * m);
 
