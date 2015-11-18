@@ -97,9 +97,9 @@ for t = 1:m
 	Theta2_grad .+= (d3 * a2');
 	Theta1_grad .+= (d2 * a1');
 endfor
+
 Theta2_grad ./= m;
 Theta1_grad ./= m;
-
 % -------------------------------------------------------------
 % Part 3: regularization
 % -------------------------------------------------------------
@@ -110,6 +110,14 @@ Nt2 = Theta2;
 Nt2 = Nt2(:, 2:end);
 Nt2 = reshape(Nt2, size(Nt2, 1) * size(Nt2, 2), 1);
 J = J + (Nt1' * Nt1 + Nt2' * Nt2) * lambda / (2 * m);
+
+NT2 = Theta2;
+NT2(:, 1) = 0;
+Theta2_grad .+= (lambda / m) * NT2;
+
+NT1 = Theta1;
+NT1(:, 1) = 0;
+Theta1_grad .+= (lambda / m) * NT1;
 
 % =========================================================================
 
