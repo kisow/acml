@@ -64,29 +64,52 @@ Theta2_grad = zeros(size(Theta2));
 % -------------------------------------------------------------
 % Part 1: cost function
 % -------------------------------------------------------------
-a1 = [ones(size(X, 1), 1) X];
-z2 = a1 * Theta1';
-a2 = sigmoid(z2);
-a2 = [ones(size(a2, 1), 1) a2];
-z3 = a2 * Theta2';
-a3 = sigmoid(z3);
+A1 = [ones(size(X, 1), 1) X];
+Z2 = A1 * Theta1';
+A2 = sigmoid(Z2);
+A2 = [ones(size(A2, 1), 1) A2];
+Z3 = A2 * Theta2';
+A3 = sigmoid(Z3);
 
 for i = 1:m
 	yi = (1:num_labels == y(i));
-	J -= yi * log(a3(i, :))';
-	J -= (1 - yi) * log(1 - a3(i, :))';
+	J -= yi * log(A3(i, :))';
+	J -= (1 - yi) * log(1 - A3(i, :))';
 endfor
 J /= m;
+
+% -------------------------------------------------------------
+% Part 2: backpropagation
+% -------------------------------------------------------------
+for t = 1:m
+	a3 = A3(t, :)';
+	a2 = A2(t, :)';
+	a1 = A1(t, :)';
+	z2 = Z2(t, :)';
+
+	yt = (1:num_labels == y(t))';
+	d3 = a3 - yt;
+
+	d2 = Theta2' * d3;
+	d2 = d2(2:end); % remove d2(0)
+    d2 .*= sigmoidGradient(z2);
+
+	Theta2_grad .+= (d3 * a2');
+	Theta1_grad .+= (d2 * a1');
+endfor
+Theta2_grad ./= m;
+Theta1_grad ./= m;
+
 % -------------------------------------------------------------
 % Part 3: regularization
 % -------------------------------------------------------------
-nt1 = Theta1;
-nt1 = nt1(:, 2:end);
-nt1 = reshape(nt1, size(nt1, 1) * size(nt1, 2), 1);
-nt2 = Theta2;
-nt2 = nt2(:, 2:end);
-nt2 = reshape(nt2, size(nt2, 1) * size(nt2, 2), 1);
-J = J + (nt1' * nt1 + nt2' * nt2) * lambda / (2 * m);
+Nt1 = Theta1;
+Nt1 = Nt1(:, 2:end);
+Nt1 = reshape(Nt1, size(Nt1, 1) * size(Nt1, 2), 1);
+Nt2 = Theta2;
+Nt2 = Nt2(:, 2:end);
+Nt2 = reshape(Nt2, size(Nt2, 1) * size(Nt2, 2), 1);
+J = J + (Nt1' * Nt1 + Nt2' * Nt2) * lambda / (2 * m);
 
 % =========================================================================
 
