@@ -23,12 +23,27 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+% 구현=================
+%min_err = realmax;
+%step = [0.01 0.03 0.1 0.3 1 3 10 30];
+%for C_step = step
+%    for sigma_step = step
+%        model = svmTrain(X, y, C_step,...
+%                 @(x1, x2) gaussianKernel(x1, x2, sigma_step));
+%        predictions = svmPredict(model, Xval);
+%        err = mean(double(predictions ~= yval));
+%        fprintf('cur: C=%f, sigma=%f, err=%f\n', C_step, sigma_step, err);
+%        fprintf('min: C=%f, sigma=%f, err=%f\n', C, sigma, min_err);
+%        if min_err > err
+%            min_err = err;
+%            C = C_step;
+%            sigma = sigma_step;
+%        end
+%    end
+%end
 
-
-
-
-
-
+C = 1.0;
+sigma = 0.1;
 % =========================================================================
 
 end
