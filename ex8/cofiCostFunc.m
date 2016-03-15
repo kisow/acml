@@ -43,8 +43,8 @@ regular_term = (lambda / 2) * (sum(sum(Theta .^ 2)) + sum(sum(X .^ 2)));
 E = (X * Theta' - Y) .* R;
 J = sum(sum((E .^ 2) / 2)) + regular_term;
 
-X_grad = E * Theta;
-Theta_grad = E' * X;
+X_grad = E * Theta + lambda * X;
+Theta_grad = E' * X + lambda * Theta;
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
