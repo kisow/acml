@@ -19,18 +19,8 @@ sigma2 = zeros(n, 1);
 %               In particular, mu(i) should contain the mean of
 %               the data for the i-th feature and sigma2(i)
 %               should contain variance of the i-th feature.
-%
-
-
-
-
-
-
-
-
-
-
+%'
+mu = ones(m, 1)' * X / m;
+sigma2 = ones(m, 1)' * (X - mu) .^ 2 / m;
 % =============================================================
-
-
 end
